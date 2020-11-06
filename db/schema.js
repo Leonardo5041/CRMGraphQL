@@ -16,8 +16,8 @@ const typeDefs = gql`
     type Producto{
         id: ID
         nombre: String
-        existencia: Int
         precio: Float
+        costo:Float
         creado: String
     }
     type Cliente{
@@ -36,7 +36,8 @@ const typeDefs = gql`
         total:Float
         cliente:Cliente
         vendedor: ID
-        fecha:String
+        pagar:Float
+        creado:String
         estado: EstadoPedido
     }
     type PedidoGrupo{
@@ -44,6 +45,7 @@ const typeDefs = gql`
         cantidad: Int
         nombre:String
         precio:Float
+        
     }
 
     type TopCliente{
@@ -69,15 +71,15 @@ const typeDefs = gql`
 
     input ProductoInput{
         nombre: String!
-        existencia: Int!
         precio: Float!
+        costo: Float!
 
     }
     input ClienteInput{
         nombre:String!
-        apellido:String!
-        empresa:String!
-        email:String!
+        apellido:String
+        empresa:String
+        email:String
         telefono:String
 
     }
@@ -87,17 +89,21 @@ const typeDefs = gql`
         cantidad: Int
         nombre:String
         precio:Float
+        
     }
 
     input PedidoInput{
         pedido: [PedidoProductoInput]
         total: Float
         cliente: ID
+        pagar: Float
         estado: EstadoPedido
+        creado: String
     }
     
     enum EstadoPedido{
         PENDIENTE
+        ENTREGADO
         COMPLETADO
         CANCELADO
     }

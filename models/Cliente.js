@@ -9,18 +9,18 @@ const ClientesSchema = mongoose.Schema({
     },
     apellido: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     empresa: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     email: {
         type: String,
         required: true,
-        trim: true,
+        trim: false,
         unique: true
     },
     telefono: {

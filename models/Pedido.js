@@ -19,12 +19,16 @@ const ProductosSchema = mongoose.Schema({
         required: true,
         ref: 'Usuario'
     },
-    estado:{
-        type:String,
-        default:"PENDIENTE",
+    pagar: {
+        type: Number,
+        required: true
+    },
+    estado: {
+        type: String,
+        default: "PENDIENTE",
 
     },
-    creado:{
+    creado: {
         type: Date,
         default: Date.now()
     }

@@ -7,12 +7,12 @@ const ProductosSchema = mongoose.Schema({
         trim: true
 
     },
-    existencia: {
+    precio: {
         type: Number,
         required: true,
         trim: true
     },
-    precio: {
+    costo: {
         type: Number,
         required: true,
         trim: true
@@ -23,5 +23,5 @@ const ProductosSchema = mongoose.Schema({
     }
 
 });
-ProductosSchema.index({nombre: 'text'})
+ProductosSchema.index({ nombre: 'text' })
 module.exports = mongoose.model('Producto', ProductosSchema);

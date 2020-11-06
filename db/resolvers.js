@@ -120,9 +120,7 @@ const resolvers = {
             }
             return pedido;
         },
-        obtenerPedidosEstado: async (_, {
-            estado
-        }, ctx) => {
+        obtenerPedidosEstado: async (_, {estado}, ctx) => {
             const pedidos = await Pedido.find({
                 vendedor: ctx.usuario.id,
                 estado: estado
@@ -272,9 +270,7 @@ const resolvers = {
             }
         },
         //----------------------------------PRODUCTOS-----------------------------------*
-        nuevoProducto: async (_, {
-            input
-        }) => {
+        nuevoProducto: async (_, { input }) => {
             try {
                 const producto = new Producto(input);
 
@@ -395,9 +391,7 @@ const resolvers = {
 
         },
         //**************************PEDIDOS*************************** */
-        nuevoPedido: async (_, {
-            input
-        }, ctx) => {
+        nuevoPedido: async (_, { input }, ctx) => {
             const {
                 cliente
             } = input
