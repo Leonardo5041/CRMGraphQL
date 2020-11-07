@@ -9,7 +9,6 @@ const ClientesSchema = mongoose.Schema({
     },
     apellido: {
         type: String,
-        required: false,
         trim: true
     },
     empresa: {
@@ -19,7 +18,6 @@ const ClientesSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
         trim: false,
         unique: true
     },
