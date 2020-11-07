@@ -14,7 +14,6 @@ const ProductosSchema = mongoose.Schema({
     },
     costo: {
         type: Number,
-        required: true,
         trim: true
     },
     creado: {

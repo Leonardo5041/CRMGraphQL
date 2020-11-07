@@ -72,7 +72,7 @@ const typeDefs = gql`
     input ProductoInput{
         nombre: String!
         precio: Float!
-        costo: Float!
+        costo: Float
 
     }
     input ClienteInput{
