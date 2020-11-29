@@ -19,7 +19,7 @@ const ClientesSchema = mongoose.Schema({
     email: {
         type: String,
         trim: false,
-        unique: true
+        
     },
     telefono: {
         type: String,

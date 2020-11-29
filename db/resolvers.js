@@ -100,6 +100,7 @@ const resolvers = {
             try {
                 const pedidos = await Pedido.find({
                     vendedor: ctx.usuario.id
+                    //efectos de prueba vendedor: '5fa1a69bf7182100171fa456'
                 }).populate('cliente');
                 return pedidos;
             } catch (error) {
@@ -120,7 +121,7 @@ const resolvers = {
             }
             return pedido;
         },
-        obtenerPedidosEstado: async (_, {estado}, ctx) => {
+        obtenerPedidosEstado: async (_, { estado }, ctx) => {
             const pedidos = await Pedido.find({
                 vendedor: ctx.usuario.id,
                 estado: estado
@@ -312,28 +313,23 @@ const resolvers = {
             return "Se ha eliminado Correctamente";
         },
         //----------------------------------CLIENTES-----------------------------------*
-        nuevoCliente: async (_, {
-            input
-        }, ctx) => {
-            console.log(ctx);
-            //verificar si el cliente ya existe
-            const {
-                email
-            } = input
-            const cliente = await Cliente.findOne({
-                email
-            });
+        nuevoCliente: async (_, { input }, ctx) => {
+            //console.log(input);
+            // //verificar si el cliente ya existe
+            // const {email} = input
+            // const cliente = await Cliente.findOne({email });
 
-            if (cliente) {
-                throw new Error('El cliente ya se encuentra registrado');
-            }
+            // if (cliente) {
+            //     throw new Error('El cliente ya se encuentra registrado');
+            // }
             const nuevoCliente = new Cliente(input);
 
             //asignar el vendedor
             nuevoCliente.vendedor = ctx.usuario.id;
+
+            //ASIGNAR ESTE VALOR PARA PRUEBAS nuevoCliente.vendedor = "5f8793e5b7043d2d24d85da1";
             try {
                 //guardarlo en la BD
-
                 const resultado = await nuevoCliente.save();
                 return resultado;
             } catch (error) {
@@ -341,10 +337,7 @@ const resolvers = {
             }
 
         },
-        actualizarCliente: async (_, {
-            id,
-            input
-        }, ctx) => {
+        actualizarCliente: async (_, { id, input }, ctx) => {
             //verificar si existe o no
             let cliente = await Cliente.findById(id);
             if (!cliente) {
@@ -434,13 +427,8 @@ const resolvers = {
             return resultado;
 
         },
-        actualizarPedido: async (_, {
-            id,
-            input
-        }, ctx) => {
-            const {
-                cliente
-            } = input;
+        actualizarPedido: async (_, { id, input }, ctx) => {
+            const { cliente } = input;
             //verificar si existe o no
             const existePedido = await Pedido.findById(id);
             if (!existePedido) {
@@ -479,9 +467,7 @@ const resolvers = {
 
 
             //guardar el cliente actualizado
-            const resultado = await Pedido.findOneAndUpdate({
-                _id: id
-            }, input, {
+            const resultado = await Pedido.findOneAndUpdate({_id: id}, input, {
                 new: true
             });
             return resultado;

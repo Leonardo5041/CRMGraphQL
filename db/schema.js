@@ -34,11 +34,16 @@ const typeDefs = gql`
         id: ID
         pedido: [PedidoGrupo]
         total:Float
+        iva:Float
         cliente:Cliente
         vendedor: ID
         pagar:Float
         creado:String
+        fechaEntrega:String
+        fechaPago:String
         estado: EstadoPedido
+        estadoMateriaPrima: EstadoPedido
+        fechaPagoMateriaPrima:String
     }
     type PedidoGrupo{
         id:ID
@@ -95,10 +100,15 @@ const typeDefs = gql`
     input PedidoInput{
         pedido: [PedidoProductoInput]
         total: Float
+        iva:Float
         cliente: ID
         pagar: Float
         estado: EstadoPedido
         creado: String
+        fechaEntrega:String
+        fechaPago:String
+        estadoMateriaPrima: EstadoPedido
+        fechaPagoMateriaPrima:String
     }
     
     enum EstadoPedido{
