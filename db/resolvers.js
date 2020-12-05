@@ -98,20 +98,16 @@ const resolvers = {
         },
         obtenerPedidosVendedor: async (_, { }, ctx) => {
             try {
-                const pedidos = await Pedido.find({
-                    vendedor: ctx.usuario.id
-                    //efectos de prueba vendedor: '5fa1a69bf7182100171fa456'
-                }).populate('cliente');
+                const pedidos = await Pedido.find({ vendedor: ctx.usuario.id }).populate('cliente');
+
                 return pedidos;
             } catch (error) {
                 console.log(error);
             }
         },
-        obtenerPedido: async (_, {
-            id
-        }, ctx) => {
+        obtenerPedido: async (_, { id }, ctx) => {
             //Revisar si el pedido existe o no
-            const pedido = await Pedido.findById(id);
+            const pedido = await Pedido.findById(id).populate('cliente');
             if (!pedido) {
                 throw new Error('Pedido no encontrado');
             }
@@ -199,14 +195,12 @@ const resolvers = {
             ]);
             return vendedores;
         },
-        buscarProducto: async (_, {
-            texto
-        }) => {
+        buscarProducto: async (_, { texto }) => {
             const productos = await Producto.find({
                 $text: {
                     $search: texto
                 }
-            })
+            }).limit(10)
             return productos;
         }
 
@@ -467,7 +461,7 @@ const resolvers = {
 
 
             //guardar el cliente actualizado
-            const resultado = await Pedido.findOneAndUpdate({_id: id}, input, {
+            const resultado = await Pedido.findOneAndUpdate({ _id: id }, input, {
                 new: true
             });
             return resultado;

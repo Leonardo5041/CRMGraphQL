@@ -50,6 +50,7 @@ const typeDefs = gql`
         cantidad: Int
         nombre:String
         precio:Float
+        costo:Float
         
     }
 
@@ -94,6 +95,7 @@ const typeDefs = gql`
         cantidad: Int
         nombre:String
         precio:Float
+        costo:Float
         
     }
 
