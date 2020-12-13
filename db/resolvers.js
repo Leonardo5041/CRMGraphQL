@@ -160,6 +160,52 @@ const resolvers = {
             return clientes;
 
         },
+
+        ventasMensuales: async () => {
+            const ventas = await Pedido.aggregate([{
+                $match: {
+                    estado: "ENTREGADO"
+                }
+            },
+            {
+                $project: {
+                    formattedDate: {
+                        $dateToString: { "format": "%Y-%m-%d", "date": "$creado" }
+                    },
+                    createdAtMonth: { "$month": "$creado" },
+                    createdAtYear: { "$year": "$creado" },
+                    total: 1,
+                    iva: 1
+                }
+            },
+            {
+                $group: {
+                    _id: "$createdAtMonth",
+                    total: { $sum: '$total' },
+                    iva: { $sum: '$iva' },
+                    mes: { "$first": "$createdAtMonth" },
+                    anio: { "$first": "$createdAtYear" }
+                }
+            }
+                // {
+                //     $group: {
+                //         _id: {
+                //             $month: "$fechaEntrega"
+                //         },
+                //         total: {
+                //             $sum: '$total'
+                //         }
+                //     }
+                // },
+                // {
+                //     $sort: {
+                //         total: -1
+                //     }
+                // }
+            ]);
+            return ventas;
+        },
+
         mejoresVendedores: async () => {
             const vendedores = await Pedido.aggregate([{
                 $match: {
