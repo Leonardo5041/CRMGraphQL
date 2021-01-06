@@ -164,7 +164,9 @@ const resolvers = {
         ventasMensuales: async () => {
             const ventas = await Pedido.aggregate([{
                 $match: {
-                    estado: "ENTREGADO"
+                    estado: {
+                        $in: ['ENTREGADO', 'COMPLETADO']
+                    }
                 }
             },
             {
@@ -175,7 +177,9 @@ const resolvers = {
                     createdAtMonth: { "$month": "$creado" },
                     createdAtYear: { "$year": "$creado" },
                     total: 1,
-                    iva: 1
+                    iva: 1,
+                    pagar: 1,
+                    impuestos: 1
                 }
             },
             {
@@ -183,8 +187,16 @@ const resolvers = {
                     _id: "$createdAtMonth",
                     total: { $sum: '$total' },
                     iva: { $sum: '$iva' },
+                    pagar: { $sum: '$pagar' },
                     mes: { "$first": "$createdAtMonth" },
-                    anio: { "$first": "$createdAtYear" }
+                    anio: { "$first": "$createdAtYear" },
+                    impuestos: {$sum : { $sum : ['$iva', '$pagar']}}
+                }
+            },
+            {
+                $sort: {
+                    anio: 1,
+                    mes: 1
                 }
             }
                 // {

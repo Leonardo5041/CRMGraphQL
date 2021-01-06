@@ -65,9 +65,12 @@ const typeDefs = gql`
     }
     type TopVentas{
         total:Float
+        pagar:Float
         mes:String
         anio:String
         iva:Float
+        impuestos:Float
+        
     }
 
     input UsuarioInput{
