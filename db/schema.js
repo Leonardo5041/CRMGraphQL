@@ -145,6 +145,7 @@ const typeDefs = gql`
        #Pedidos
        obtenerPedidos:[Pedido]
        obtenerPedidosVendedor:[Pedido]
+       obtenerPedidosCliente(id:ID!):[Pedido]
        obtenerPedido(id:ID!): Pedido
        obtenerPedidosEstado(estado:String): [Pedido]
 

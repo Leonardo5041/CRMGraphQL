@@ -98,9 +98,20 @@ const resolvers = {
         },
         obtenerPedidosVendedor: async (_, { }, ctx) => {
             try {
-                const pedidos = await Pedido.find({ vendedor: ctx.usuario.id }).populate('cliente');
+                const pedidos = await Pedido.find({ vendedor: ctx.usuario.id }).populate('cliente').sort({ creado: 1 });
 
                 return pedidos;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        obtenerPedidosCliente: async (_, { id }, ctx) => {
+            try {
+                const pedidos = await Pedido.find({ cliente: id });
+                const numPedidos = pedidos.length
+                console.log(numPedidos)
+                return pedidos;
+
             } catch (error) {
                 console.log(error);
             }
@@ -152,7 +163,7 @@ const resolvers = {
             },
             {
                 $sort: {
-                    total: -1
+                    total: 1
                 }
             }
             ]);
@@ -190,7 +201,7 @@ const resolvers = {
                     pagar: { $sum: '$pagar' },
                     mes: { "$first": "$createdAtMonth" },
                     anio: { "$first": "$createdAtYear" },
-                    impuestos: {$sum : { $sum : ['$iva', '$pagar']}}
+                    impuestos: { $sum: { $sum: ['$iva', '$pagar'] } }
                 }
             },
             {
@@ -427,11 +438,16 @@ const resolvers = {
             if (cliente.vendedor.toString() !== ctx.usuario.id) {
                 throw new Error('No tienes las credenciales');
             }
+            //Eliminar pedidos del cliente para que no genere error al momento de buscar los pedidos
+            await Pedido.deleteMany({ cliente: id })
+
+
 
             //Eliminar El cliente de la base de datos
             await Cliente.findOneAndDelete({
                 _id: id
             });
+
             return "Cliente Eliminado"
 
         },
